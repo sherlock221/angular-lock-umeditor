@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <title>UMEDITOR 完整demo</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link href="umeditor/themes/default/css/umeditor.css" type="text/css" rel="stylesheet">
+
+    <script type="text/javascript" src="umeditor/third-party/jquery.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="umeditor/umeditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="umeditor/umeditor.min.js"></script>
+    <script type="text/javascript" src="umeditor/lang/zh-cn/zh-cn.js"></script>
+
+    <script type="text/javascript" src="angular.min.js"></script>
+    <script type="text/javascript" src="angular-lockumeditor.js"></script>
+
+
+</head>
+<body ng-app="app">
+
+<div ng-controller="mainCtrl">
+
+
+    <div id="container"   lock-umeditor-focus="onFocus()"  lock-umeditor-blur="onBlur();" config="ct" ng-model="content" lock-umeditor style="width:600px;height:200px;"></div>
+
+</div>
+
+
+</body>
+
+<script type="text/javascript">
+    angular.module('app', ['lock-umeditor'])
+
+            .controller('mainCtrl', function($scope){
+                $scope.content = '';
+                $scope.ct = {
+                    toolbar: ['undo redo | bold italic underline']
+                }
+
+                $scope.onBlur = function(){
+                    console.log("ueditor on blur");
+                }
+
+                $scope.onFocus = function(){
+                    console.log("ueditor on focus");
+                }
+            });
+</script>
+
+</html>
