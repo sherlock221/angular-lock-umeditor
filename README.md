@@ -28,7 +28,7 @@ angular-lock-umeditor 封装了umedior 1.2.2版本 为angularjs的指令来使�
 
     <script type="text/javascript" src="angular.min.js"></script>
     <script type="text/javascript" src="angular-lockumeditor.js"></script>
-    
+```
     
 ### 加载模块 ###
 ```html
@@ -50,7 +50,7 @@ angular-lock-umeditor 封装了umedior 1.2.2版本 为angularjs的指令来使�
                 }
             });
 </script>
-    
+ ```   
     
 ### 在使用的地方添加代码 ###
 
