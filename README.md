@@ -1,19 +1,69 @@
 ###angular umeditor
 
-> 封装了百度umedior 作为angularjs的指令来使用,可以参考index.html文件 快速上手
+UMeditor，简称UM，是 [ueditor](http://ueditor.baidu.com) 的简版。是为满足广大门户网站对于简单发帖框和回复框的需求，专门定制的在线富文本编辑器。我们的目标不仅是要提高在线编辑的编辑体验，也希望能改变前端技术中关于富文本技术的门槛，让大家不再觉得这块是个大坑。
+angular-lock-umeditor 封装了umedior 1.2.2版本 为angularjs的指令来使用. index.html展示了基本功能.
 
-####快速使用
-<pre>
-<code>
-       <link href="umeditor/themes/default/css/umeditor.css" type="text/css" rel="stylesheet">
+### 主要特点 ###
+9	
+10	1. **轻量**: 主文件的代码量为139k。
+11	2. **加载速度更快**: 放弃了使用传统的iframe模式，采用了div的加载方式，以达到更快的加载速度和零加载失败率。
+12	2. **可定制**: 配置项完善，可定制程度高。
+13	2. **可扩展**: 代码层次拆分清晰，功能以插件形式挂接，可灵活定制需要的功能。
+14	3. **多后台支持**: 支持php、asp、jsp、net四中后台部署代码
+15	4. **功能丰富**: 支持插入公式、粘贴QQ截屏、拖放上传图片、插入地图、草稿箱功能
 
-        <script type="text/javascript" src="umeditor/third-party/jquery.min.js"></script>
-        <script type="text/javascript" charset="utf-8" src="umeditor/umeditor.config.js"></script>
-        <script type="text/javascript" charset="utf-8" src="umeditor/umeditor.min.js"></script>
-        <script type="text/javascript" src="umeditor/lang/zh-cn/zh-cn.js"></script>
+### 快速使用 ###
 
-        <script type="text/javascript" src="angular.min.js"></script>
-        <script type="text/javascript" src="angular-lockumeditor.js"></script>
+### 导入头文件 ###
 
-</code>
-</pre>
+```html
+
+
+    <link href="umeditor/themes/default/css/umeditor.css" type="text/css" rel="stylesheet">
+
+    <script type="text/javascript" src="umeditor/third-party/jquery.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="umeditor/umeditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="umeditor/umeditor.min.js"></script>
+    <script type="text/javascript" src="umeditor/lang/zh-cn/zh-cn.js"></script>
+
+    <script type="text/javascript" src="angular.min.js"></script>
+    <script type="text/javascript" src="angular-lockumeditor.js"></script>
+    
+    
+### 加载模块 ###
+```html
+    
+<script type="text/javascript">
+    angular.module('app', ['lock-umeditor'])
+            .controller('mainCtrl', function($scope){
+                $scope.content = '';
+                $scope.ct = {
+//                    toolbar: ['undo redo | bold italic underline']
+                }
+
+                $scope.onBlur = function(){
+                    console.log("ueditor on blur");
+                }
+
+                $scope.onFocus = function(){
+                    console.log("ueditor on focus");
+                }
+            });
+</script>
+    
+    
+### 在使用的地方添加代码 ###
+
+> 记得指定id
+
+```html
+ <div id="container"   lock-umeditor-focus="onFocus()"  lock-umeditor-blur="onBlur();" config="ct" ng-model="content" lock-umedi></div>
+
+
+
+### 参数说明 ###
+
+1. config : ueditor配置参数
+2. lock-umeditor-focus : ueditor 获得焦点
+3. lock-umeditor-blur : 失去焦点
+
