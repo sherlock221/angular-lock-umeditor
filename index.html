@@ -12,7 +12,12 @@
     <script type="text/javascript" charset="utf-8" src="umeditor/umeditor.min.js"></script>
     <script type="text/javascript" src="umeditor/lang/zh-cn/zh-cn.js"></script>
 
+
+
     <script type="text/javascript" src="angular.min.js"></script>
+
+    <script type="text/javascript" src="ngFileUpload/ng-file-upload-all.min.js"></script>
+
     <script type="text/javascript" src="angular-lockumeditor.js"></script>
 
 
@@ -22,20 +27,37 @@
 <div ng-controller="mainCtrl">
 
 
-    <div id="container"   lock-umeditor-focus="onFocus()"  lock-umeditor-blur="onBlur();" config="ct" ng-model="content" lock-umeditor style="width:600px;height:200px;"></div>
+    <div id="container"
+         lock-umeditor-focus="onFocus()"
+         lock-umeditor-blur="onBlur();"
+         config="ct"
+         ng-model="content"
+         lock-umeditor style="width:600px;height:200px;">
+
+    </div>
 
 </div>
 
 
 </body>
 
-<script type="text/javascript">
-    angular.module('app', ['lock-umeditor'])
 
-            .controller('mainCtrl', function($scope){
+
+
+<script type="text/javascript">
+
+    window.addEventListener("message", function(){
+        console.log("ddd");
+    }, false);
+    angular.module('app', ['ngFileUpload','lock-umeditor'])
+            .controller('uploadCtrl', function($scope,Upload){
+
+            })
+            .controller('mainCtrl', function($scope,Upload){
                 $scope.content = '';
                 $scope.ct = {
-                    path : "http://ueditor.baidu.com/server/umeditor/imageUp.php"
+                    //这个很重要一定为空
+                    imagePath : ""
 //                    toolbar: ['undo redo | bold italic underline']
                 }
 
@@ -46,7 +68,42 @@
                 $scope.onFocus = function(){
                     console.log("ueditor on focus");
                 }
+
+
+                //图片上传功能
+                $scope.upload = function (files,callBack) {
+                    if (files) {
+                        var file = files[0];
+                            Upload.upload({
+                                url: 'http://10.10.68.11:8080/file/upload/savefile.shtml',
+                                file: file
+                            }).progress(function (evt) {
+                                  //这里做上传进度展示
+//                                var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+//                                console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
+                            }).success(function (res, status, headers, config) {
+//                                console.log('file ' + config.file.name + 'uploaded. Response: ' + res);
+                                //数据封装
+                                var json = {
+                                    "state": "SUCCESS",
+                                    "url": res.data.url,
+                                    "title": "",
+                                    "original": ""
+                                }
+                                callBack(json);
+                            }).error(function (data, status, headers, config) {
+                                console.log('error status: ' + status);
+                            })
+                        }
+                };
+
+
+                //暴露upload全局变量
+                window.upload = $scope.upload;
+
             });
+
+
 </script>
 
 </html>

@@ -60,10 +60,28 @@ angular-lock-umeditor 封装了umedior 1.2.2版本 为angularjs的指令来使�
  <div id="container"   lock-umeditor-focus="onFocus()"  lock-umeditor-blur="onBlur();" config="ct" ng-model="content" lock-umedi></div>
 
 
-
+```
 ### 参数说明 ###
 
 1. config : ueditor配置参数
 2. lock-umeditor-focus : ueditor 获得焦点
 3. lock-umeditor-blur : 失去焦点
+
+
+### 图片上传跨域问题 ###
+umeditor img上传采用的时 form 提交iframe的 方式异步上传 那么如果图片服务器 和 项目服务器 不在一个域名下 
+就会导致出错 父页面 无法获得 子iframe中的内容
+
+解决方案:
+
+1. server返回采用script 
+首先声明一个window.imgCallBack = function(json){console.log(json};方法
+server response的时候需要返回一段<script> window.parent.imgCallBack(json) </script>  json就是图片那些参数  
+这样返回的子iframe 就会调用父页面 暴露出来的公共方法 imgCallBack
+
+
+2. 采用ngfile upload来解决
+如果sever端条件不允许的情况下 就需要我们前端自行解决了
+首先要实现
+
 

@@ -28,7 +28,6 @@ angular.module('lock-umeditor', [])
                     console.log("请设置元素id");
                     return;
                 }
-
                 console.log(scope.config);
 
                 //创建editor
