@@ -1,7 +1,7 @@
 ###angular umeditor
 
 UMeditor，简称UM，是 [ueditor](http://ueditor.baidu.com) 的简版。是为满足广大门户网站对于简单发帖框和回复框的需求，专门定制的在线富文本编辑器。我们的目标不仅是要提高在线编辑的编辑体验，也希望能改变前端技术中关于富文本技术的门槛，让大家不再觉得这块是个大坑。
-angular-lock-umeditor 封装了umedior 1.2.2版本 为angularjs的指令来使用. index.html展示了基本功能.
+angular-lock-umeditor 封装了umedior 1.2.2版本 为angularjs的指令来使用. demo展示了基本功能.
 
 ### 主要特点 ###
 9	
@@ -38,11 +38,11 @@ angular-lock-umeditor 封装了umedior 1.2.2版本 为angularjs的指令来使�
             .controller('mainCtrl', function($scope){
                 $scope.content = '';
                 $scope.ct = {
-//                                      //这个很重要一定为空(图片的前缀)
-                                         imagePath : "",
-                                          //server 上传接口
-                                          imageUrl : "http://192.168.1.107:3001/cmw/file/upload"
-                    //                    toolbar: ['undo redo | bold italic underline']
+                 //这个很重要一定为空(图片的前缀)                     
+                 imagePath : "",
+                 //server 上传接口
+                 imageUrl : "http://192.168.1.107:3001/cmw/file/upload"
+//               toolbar: ['undo redo | bold italic underline']
                 }
 
                 $scope.onBlur = function(){
@@ -80,7 +80,10 @@ umeditor img上传采用的时 form 提交iframe的 方式异步上传 那么如
 
 1. server response的时候需要返回一段script
 //调起客户端脚本
-node例子 res.send('<script>window.parent.postMessage('+JSON.stringify(json)+',"*")</script>');
+node例子
+ ```html
+res.send('<script>window.parent.postMessage('+JSON.stringify(json)+',"*")</script>');
+```
 第二个参数为 白名单 上线的时候记得设置成 前端资源所在域名
     
 json的格式参考百度editor的返回格式即可    
