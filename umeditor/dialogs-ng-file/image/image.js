@@ -138,7 +138,7 @@
      * */
     var Upload = {
         showCount: 0,
-        uploadTpl: '<div class="edui-image-upload%%">' +
+        uploadTpl: '<div class="edui-image-upload%%"  >' +
             '<span class="edui-image-icon"></span>' +
             '<form class="edui-image-form" method="post" enctype="multipart/form-data" target="up">' +
             '<input style=\"filter: alpha(opacity=0);\" class="edui-image-file" type="file" hidefocus name="upfile" accept="image/gif,image/jpeg,image/png,image/jpg,image/bmp"/>' +
@@ -184,10 +184,11 @@
             return me;
         },
         uploadComplete: function(r){
+
             var me = this;
             try{
-                var json = eval('('+r+')');
-                Base.callback(me.editor, me.dialog, json.url, json.state);
+                //var json = eval('('+r+')');
+                Base.callback(me.editor, me.dialog, r.url, r.state);
             }catch (e){
                 var lang = me.editor.getLang('image');
                 Base.callback(me.editor, me.dialog, '', (lang && lang.uploadError) || 'Error!');
@@ -199,26 +200,52 @@
                 input = $( '<input style="filter: alpha(opacity=0);" class="edui-image-file" type="file" hidefocus="" name="upfile" accept="image/gif,image/jpeg,image/png,image/jpg,image/bmp">'),
                 input = input[0];
 
+
             $(me.dialog).delegate( ".edui-image-file", "change", function ( e ) {
 
                 if ( !this.parentNode ) {
                     return;
                 }
 
-                $('<iframe name="up"  style="display: ></iframe>')
-                    .insertBefore(me.dialog).on('load', function(){
-                    var r = this.contentWindow.document.body.innerHTML;
-                    if(r == '')return;
-                    me.uploadComplete(r);
-                    $(this).unbind('load');
-                    $(this).remove();
+                console.log("cg");
 
-                });
+                //$('<iframe name="up"  style="display: none"></iframe>').insertBefore(me.dialog).on('load', function(){
+                //
+                //    var body = (this.contentDocument || this.contentWindow.document).body,
+                //        r = body.innerText || body.textContent || '';
+                //    if(r == '')return;
+                //
+                //    me.uploadComplete(r);
+                //    $(this).unbind('load');
+                //    $(this).remove();
+                //
+                //});
 
-                $(this).parent()[0].submit();
-                Upload.updateInput( input );
-                me.toggleMask("Loading....");
-                callback && callback();
+                //$(this).parent()[0].submit();
+
+// Retrieve file list
+                    var files = FileAPI.getFiles(this);
+                    console.log(files);
+
+
+                    window.upload(files,function(res){
+                                me.uploadComplete(res);
+                            });
+
+                //if(this.files){
+                //    window.upload(this.files,function(res){
+                //        me.uploadComplete(res);
+                //    });
+                //}
+                //else{
+                //    var fileReader = new FileReader();
+                //    fileReader.
+                //    console.log("不支持file",fileReader);
+                //}
+                //
+                //Upload.updateInput( input );
+                //me.toggleMask("Loading....");
+                //callback && callback();
 
             });
 

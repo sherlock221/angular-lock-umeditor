@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+<head>
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>angular lock-umeditor demo</title>
+
+    <script type="text/javascript">
+        //optional need to be loaded before angular-file-upload-shim(.min).js
+        FileAPI = {
+            //only one of jsPath or jsUrl.
+//            jsUrl: '../../ngFileUpload/FileAPI.min.js',
+            jsUrl: '../../ngFileUpload/1.6.4/FileAPI.min.js',
+
+            //only one of staticPath or flashUrl.
+            flashUrl: '../../ngFileUpload/1.6.4/FileAPI.flash.swf',
+
+//            flashUrl: '../../ngFileUpload/FileAPI.flash.swf',
+            debug : true,
+//            cors : true,
+            wrapInsideDiv: true
+
+//            forceLoad: true, html5: false //to debug flash in HTML5 browsers
+            //noContentTimeout: 10000 (see #528)
+        }
+    </script>
+
+
+
+    <!--<link href="../../umeditor/themes/default/css/umeditor.css" type="text/css" rel="stylesheet">-->
+
+    <!--<script type="text/javascript" src="../../umeditor/third-party/jquery.min.js"></script>-->
+    <!--<script type="text/javascript" charset="utf-8" src="../../umeditor/umeditor.config.js"></script>-->
+    <!--<script type="text/javascript" charset="utf-8" src="../../umeditor/umeditor-ng-file.js"></script>-->
+    <!--<script type="text/javascript" src="../../umeditor/lang/zh-cn/zh-cn.js"></script>-->
+
+
+
+
+
+
+
+
+</head>
+<body ng-app="app">
+
+<div ng-controller="mainCtrl">
+
+
+    <div id="container"
+         lock-umeditor-focus="onFocus()"
+         lock-umeditor-blur="onBlur();"
+         config="ct"
+         ng-model="content"
+         lock-umeditor style="width:600px;height:200px;">
+
+    </div>
+
+
+        <input type="file"  ng-file-select="upload($files)" />
+
+    <!--<div class="button" ngf-select ngf-change="upload($file)">Upload on file change</div>-->
+
+</div>
+
+
+</body>
+
+<script type="text/javascript" src="../../angular.min.js"></script>
+
+<!-- shim is needed to support non-HTML5 FormData browsers (IE8-9)-->
+<!--<script type="text/javascript" src="../../ngFileUpload/ng-file-upload-shim.js"></script>-->
+<script type="text/javascript" src="../../ngFileUpload/1.6.4/angular-file-upload-shim-1.6.4.js"></script>
+<!--<script type="text/javascript" src="../../ngFileUpload/ng-file-upload.js"></script>-->
+<script type="text/javascript" src="../../ngFileUpload/1.6.4/angular-file-upload-1.6.4.js"></script>
+
+<script type="text/javascript" src="../../angular-lockumeditor.js"></script>
+
+<script type="text/javascript" src="t.js"></script>
+
+
+
+</html>

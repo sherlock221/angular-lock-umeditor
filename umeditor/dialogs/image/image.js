@@ -1,5 +1,13 @@
 (function () {
 
+
+
+
+
+    //当前editor
+    var currentEditor;
+
+
     var utils = UM.utils,
         browser = UM.browser,
         Base = {
@@ -148,12 +156,16 @@
         init: function (editor, $w) {
             var me = this;
 
+
             me.editor = editor;
             me.dialog = $w;
             me.render(".edui-image-local", 1);
             me.config(".edui-image-upload1");
             me.submit();
             me.drag();
+
+
+
 
             $(".edui-image-upload1").hover(function () {
                 $(".edui-image-icon", this).toggleClass("hover");
@@ -163,8 +175,8 @@
                 $(".edui-image-dragTip", me.dialog).css("display", "block");
             }
 
-
-            return me;
+            currentEditor = me;
+            return currentEditor;
         },
         render: function (sel, t) {
             var me = this;
@@ -183,8 +195,10 @@
 
             return me;
         },
-        uploadComplete: function(r){
 
+
+
+        uploadComplete: function(r){
             var me = this;
             try{
                 //var json = eval('('+r+')');
@@ -209,29 +223,18 @@
 
                 console.log("cg");
 
-                //$('<iframe name="up"  style="display: none"></iframe>').insertBefore(me.dialog).on('load', function(){
-                //
-                //    var body = (this.contentDocument || this.contentWindow.document).body,
-                //        r = body.innerText || body.textContent || '';
-                //    if(r == '')return;
-                //
-                //    me.uploadComplete(r);
-                //    $(this).unbind('load');
-                //    $(this).remove();
-                //
-                //});
+                $('<iframe name="up"  style="display: none"> </iframe>').insertBefore(me.dialog).on('load', function(){
+                    //window.parent.postMessage('+JSON.stringify(json)+',"*");
+                    //    r = body.innerText || body.textContent || '';
+                    //if(r == '')return;
+                    //
+                    //me.uploadComplete(r);
+                    //$(this).unbind('load');
+                    //$(this).remove();
+                });
 
-                //$(this).parent()[0].submit();
-
-                if(this.files){
-                    window.upload(this.files,function(res){
-                        me.uploadComplete(res);
-
-                    });
-                }
-                else{
-                    console.log("不支持file");
-                }
+                //提交表单至iframe
+                $(this).parent()[0].submit();
 
                 Upload.updateInput( input );
                 me.toggleMask("Loading....");
@@ -334,6 +337,7 @@
             return me;
         }
     };
+
 
     /*
      * 网络图片
@@ -459,5 +463,19 @@
     }, function (editor, $w, url, state) {
         Base.callback(editor, $w, url, state)
     })
+
+
+
+    //服务器回调
+    window.addEventListener("message", function(event){
+        if(event.data){
+            currentEditor.uploadComplete(event.data);
+        }
+        else{
+            alert("上传图片错误");
+        }
+    }, false);
+
+
 })();
 

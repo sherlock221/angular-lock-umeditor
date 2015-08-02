@@ -38,7 +38,11 @@ angular-lock-umeditor 封装了umedior 1.2.2版本 为angularjs的指令来使�
             .controller('mainCtrl', function($scope){
                 $scope.content = '';
                 $scope.ct = {
-//                    toolbar: ['undo redo | bold italic underline']
+//                                      //这个很重要一定为空(图片的前缀)
+                                         imagePath : "",
+                                          //server 上传接口
+                                          imageUrl : "http://192.168.1.107:3001/cmw/file/upload"
+                    //                    toolbar: ['undo redo | bold italic underline']
                 }
 
                 $scope.onBlur = function(){
@@ -74,14 +78,18 @@ umeditor img上传采用的时 form 提交iframe的 方式异步上传 那么如
 
 解决方案:
 
-1. server返回采用script 
-首先声明一个window.imgCallBack = function(json){console.log(json};方法
-server response的时候需要返回一段<script> window.parent.imgCallBack(json) </script>  json就是图片那些参数  
-这样返回的子iframe 就会调用父页面 暴露出来的公共方法 imgCallBack
+1. server response的时候需要返回一段script
+//调起客户端脚本
+node例子 res.send('<script>window.parent.postMessage('+JSON.stringify(json)+',"*")</script>');
+第二个参数为 白名单 上线的时候记得设置成 前端资源所在域名
+    
+json的格式参考百度editor的返回格式即可    
+
+以上参考demo/img-iframe-demo 这个方案 支持ie8+ chrome+ fx + 等
 
 
 2. 采用ngfile upload来解决
-如果sever端条件不允许的情况下 就需要我们前端自行解决了
-首先要实现
+如果sever端条件不允许的情况下 就需要我们前端自行解决了 目前这个方案利用html5 file api去做 支持ie10 chrome fx等
+以上参考demo/ng-upload-demo
 
 
