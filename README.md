@@ -58,7 +58,7 @@ angular-lock-umeditor 封装了umedior 1.2.2版本 为angularjs的指令来使�
     
 ### 在使用的地方添加代码 ###
 
-> 记得指定id
+> 不指定id 则自动生成
 
 ```html
  <div id="container"   lock-umeditor-focus="onFocus()"  lock-umeditor-blur="onBlur();" config="ct" ng-model="content" lock-umedi></div>
